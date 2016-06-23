@@ -7,4 +7,5 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
     has_secure_password
     has_many :microposts
+    validates :region,    length: { minimum: 2 },on: :update
 end
