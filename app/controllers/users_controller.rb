@@ -1,9 +1,14 @@
 class UsersController < ApplicationController
+
   before_action :logged_in_user, only: [:edit, :update,:following, :followers]
-  before_action :find
+  before_action :set_user, only: [:show, :edit, :update, :following, :followers]
 
   def show # 追加
    @microposts = @user.microposts.order(created_at: :desc).page(params[:page]).per(10).order(:id)
+
+  
+
+  
   end
   
   def new
@@ -36,7 +41,7 @@ class UsersController < ApplicationController
      #edit 画面のボタンが押されたらやってくる
     if @user.update(user_params2)
       # 保存に成功した場合はトップページへリダイレクト
-      redirect_to root_path , notice: 'メッセージを編集しました'
+      redirect_to root_path , notice: 'プロフィールを編集しました'
     else
       # 保存に失敗した場合は編集画面へ戻す
       render 'edit'
@@ -56,18 +61,18 @@ class UsersController < ApplicationController
 
   private
   
-  def find
-    @user = User.find(params[:id])
+
+  def set_user
+    @user  = User.find(params[:id])
   end
-  
   def user_params
     params.require(:user).permit(:name, :email, :password,
                                  :password_confirmation)
   end
  
-   def user_params2
+  def user_params2
     params.require(:user).permit(:name, :email, :region, :password,
                                  :password_confirmation, )
-   end 
+  end 
   
 end
