@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
     has_secure_password
     has_many :microposts
-    validates :region,    length: { minimum: 2 },on: :update
+    validates :region,    length: { maximum: 20 },on: :update
     #お気に入り
     has_many :favorites, dependent:   :destroy
     has_many :favorite_microposts, through: :favorite, source: :microposts
@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
                                      foreign_key: "follower_id",
                                      dependent:   :destroy
     has_many :following_users, through: :following_relationships, source: :followed
-　　#アンフォロー
     has_many :follower_relationships, class_name:  "Relationship",
                                      foreign_key: "followed_id",
                                      dependent:   :destroy
