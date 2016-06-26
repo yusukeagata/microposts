@@ -8,11 +8,15 @@ class User < ActiveRecord::Base
     has_secure_password
     has_many :microposts
     validates :region,    length: { minimum: 2 },on: :update
+    #お気に入り
+    has_many :favorites, dependent:   :destroy
+    has_many :favorite_microposts, through: :favorite, source: :microposts
+    #フォロー
     has_many :following_relationships, class_name:  "Relationship",
                                      foreign_key: "follower_id",
                                      dependent:   :destroy
     has_many :following_users, through: :following_relationships, source: :followed
-
+　　#アンフォロー
     has_many :follower_relationships, class_name:  "Relationship",
                                      foreign_key: "followed_id",
                                      dependent:   :destroy
@@ -35,5 +39,9 @@ class User < ActiveRecord::Base
   end
   def feed_items
     Micropost.where(user_id: following_user_ids + [self.id])
+  end
+  #お気に入り
+  def favorite(other_micropost)
+    favorite_relationships.find_or_create_by(favorite_id: other_micropost.id)
   end
 end
