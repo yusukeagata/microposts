@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:edit, :update, :following, :followers]
-  before_action :find
+  before_action :set_user, only: [:show, :edit, :update, :following, :followers]
 
   def show # 追加
    @microposts = @user.microposts.order(created_at: :desc)
@@ -56,7 +56,7 @@ class UsersController < ApplicationController
 
   private
   
-  def find
+  def set_user
     @user  = User.find(params[:id])
   end
   def user_params
