@@ -1,7 +1,7 @@
 class FavoritesController < ApplicationController
   before_action :logged_in_user, only: [:create]
 
-  def create
+def create
     @favorite = current_user.favorites.build(favorite_params)
     if @favorite.save
       flash[:success] = "Favorite created!"
@@ -9,4 +9,5 @@ class FavoritesController < ApplicationController
     else
       render 'static_pages/home'
     end
-  end
+end
+end
