@@ -1,0 +1,8 @@
+
+  <div id="follow_form">
+  <% if current_user.favorite?(@micropost) %>
+    <%= render 'unfavorite' %>
+  <% else %>
+    <%= render 'favorite' %>
+  <% end %>
+  </div>

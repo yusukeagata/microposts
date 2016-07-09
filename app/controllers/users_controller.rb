@@ -5,10 +5,6 @@ class UsersController < ApplicationController
 
   def show # 追加
    @microposts = @user.microposts.order(created_at: :desc).page(params[:page]).per(10).order(:id)
-
-  
-
-  
   end
   
   def new

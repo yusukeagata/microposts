@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
     has_secure_password
     has_many :microposts
+    has_many :favorites
     validates :region,    length: { maximum: 20 },on: :update
 
     #お気に入り
