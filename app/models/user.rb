@@ -7,12 +7,11 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
     has_secure_password
     has_many :microposts
-    has_many :favorites
     validates :region,    length: { maximum: 20 },on: :update
 
     #お気に入り
-    has_many :favorites, dependent:   :destroy
-    has_many :favorite_microposts, through: :favorite, source: :microposts
+    has_many :favorite_relations, class_name:"Favorite", dependent:   :destroy
+    has_many :favorite_microposts, through: :favorites_relations, source: :micropost
     #フォロー
 
     has_many :following_relationships, class_name:  "Relationship",
@@ -41,5 +40,18 @@ class User < ActiveRecord::Base
   end
   def feed_items
     Micropost.where(user_id: following_user_ids + [self.id])
+  end
+  def favorites(other_micropost)
+    # binding.pry
+    favorite_relations.find_or_create_by(micropost_id: other_micropost.id)
+  end
+
+  def unfavorites(other_micropost)
+    favorite = favorite_relations.find_by(micropost_id: other_micropost.id)
+    favorite.destroy if favorite
+  end
+
+  def favorites?(other_micropost)
+    favorite_relations.find_by(micropost_id: other_micropost.id)
   end
 end

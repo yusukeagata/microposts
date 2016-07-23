@@ -18,6 +18,18 @@ class MicropostsController < ApplicationController
     flash[:success] = "Micropost deleted"
     redirect_to request.referrer || root_url
   end
+  def favorite(other_micropost)
+    favorite_microposts.find_or_create_by(favorite_id: other_micropost.id)
+  end
+
+  def unfavorite(other_micropost)
+    favorite_microposts = favorite_microposts.find_by(favorite_id: other_micropost.id)
+    favorite_micropost.destroy if favorite_micropost
+  end
+
+  def favorite?(other_micropost)
+    favorite_users.include?(other_micropost)
+  end
   
   private
   def micropost_params
