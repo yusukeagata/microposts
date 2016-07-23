@@ -1,5 +1,5 @@
 
-  <div id="fav-<%= micropost.id %>">
+  <div id="fav-<%= micropost.id %>" >
   <% if current_user.favorites?(micropost) %>
     <%= render 'microposts/unfavorite', micropost: micropost %>
   <% else %>
